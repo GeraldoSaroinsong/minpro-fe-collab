@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaCalendar, FaEnvelope, FaPhone, FaSearch } from "react-icons/fa";
+import { FaEnvelope, FaPhone, FaSearch } from "react-icons/fa";
 import {
   Drawer,
   DrawerClose,
@@ -12,7 +12,7 @@ import { LinkMd, LinkSm } from "./LinkComponent";
 
 const Navbar = () => {
   return (
-    <div className="fixed z-10 w-full divide-y-2 divide-sky-500 bg-sky-100 shadow-sm">
+    <div className="z-10 w-full divide-y-2 divide-sky-500 bg-sky-100 shadow-sm">
       <div className="m-auto flex w-[95%] items-center justify-between py-2 text-sky-500 md:py-4">
         <div className="flex gap-6 items-center">
           <Link
@@ -34,7 +34,7 @@ const Navbar = () => {
             />
             <button
               type="button"
-              className="py-2 px-4 bg-slate-300 hover:bg-sky-500 hover:text-white right-0 top-0 text-slate-600 overflow-hidden rounded-full transition duration-100"
+              className="py-2 px-4 bg-slate-300 hover:bg-sky-500 hover:text-white hover:shadow-md right-0 top-0 text-slate-600 overflow-hidden rounded-full transition duration-100"
             >
               <FaSearch className="justify-center" />
             </button>

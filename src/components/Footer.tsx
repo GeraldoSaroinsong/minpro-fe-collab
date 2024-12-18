@@ -1,4 +1,3 @@
-import * as React from "react";
 import { FaEnvelope, FaFacebook, FaInstagram, FaPhone } from "react-icons/fa";
 
 const FooterSection = () => {

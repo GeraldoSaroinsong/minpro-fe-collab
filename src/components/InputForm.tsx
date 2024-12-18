@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useState } from "react";
-import { FaEye, FaEyeSlash, FaSearch } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface IFormInput {
   id?: string;
@@ -15,18 +16,16 @@ interface IFormInput {
 }
 
 const FormInput: React.FC<IFormInput> = ({
-  id,
   type,
   name,
   label,
   placeholder,
-  onChange,
+  // onChange,
   ref,
   value,
 }) => {
+  const [status, setStatus] = useState<boolean>(false);
   if (type === "password") {
-    const [status, setStatus] = useState<boolean>(false);
-
     const reveal = () => {
       setStatus(!status);
     };
@@ -40,7 +39,7 @@ const FormInput: React.FC<IFormInput> = ({
           type={status ? "text" : "password"}
           placeholder={placeholder}
           className="border p-2 rounded-md shadow-md bg-white w-full"
-          onChange={onChange}
+          // onChange={onChange}
           value={value}
         />
         <button
@@ -62,7 +61,7 @@ const FormInput: React.FC<IFormInput> = ({
         type={type}
         placeholder={placeholder}
         className="border p-2 rounded-md shadow-md bg-white"
-        onChange={onChange}
+        // onChange={onChange}
         value={value}
       />
     </div>
