@@ -2,18 +2,22 @@ import Image from "next/image";
 import React from "react";
 import { FaCalendar } from "react-icons/fa";
 
-interface ICard {
+interface ICardSm {
   image: string;
   title: string;
-  desc: string;
   date: string;
   price: number;
   organizer: string;
 }
 
-export const Card: React.FC<ICard> = (prop: ICard) => {
+interface ICardHero {
+  image: string;
+  title: string;
+}
+
+export const CardSm: React.FC<ICardSm> = (prop: ICardSm) => {
   return (
-    <div className="h-[350px] w-[275px] mb-4 shadow-xl rounded-xl bg-white overflow-hidden flex flex-col gap-2 transition duration-150 hover:-translate-y-3 hover:shadow-gray-400">
+    <div className="h-[350px] w-[275px] mb-4 shadow-xl rounded-xl bg-white overflow-hidden flex flex-col gap-2 transition duration-150 hover:translate-y-2 hover:shadow-gray-400">
       <div className="w-full h-1/2">
         <Image
           alt={prop.title}
@@ -44,6 +48,20 @@ export const Card: React.FC<ICard> = (prop: ICard) => {
           <p>{prop.organizer}</p>
         </div>
       </div>
+    </div>
+  );
+};
+
+export const CardHero: React.FC<ICardHero> = (prop: ICardHero) => {
+  return (
+    <div className="h-[350px] w-[90%] m-auto md:w-[97%] my-10 rounded-xl shadow-xl overflow-hidden">
+      <Image
+        alt={prop.title}
+        src={prop.image}
+        width={500}
+        height={500}
+        className="size-full"
+      />
     </div>
   );
 };
