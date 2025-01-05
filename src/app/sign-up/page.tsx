@@ -7,7 +7,7 @@ import { SignUpSchema } from "./SignUpSchema";
 import { callAPI } from "@/config/axios";
 import { Button } from "@/components/ui/button";
 
-export default function SignUp() {
+export default function SignUpPage() {
     const onRegisterUser = async (values: ISignUp) => {
         try {
             console.log("REGISTER VALUES", values);
@@ -17,6 +17,7 @@ export default function SignUp() {
                 username: values.username,
                 password: values.password,
             });
+            console.log("REGISTERED", result);
         } catch (error) {
             console.log("ERROR CALL API", error);
         }
