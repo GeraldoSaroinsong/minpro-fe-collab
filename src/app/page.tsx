@@ -122,6 +122,12 @@ export default function Home() {
         </h1>
         <FeaturedEvents events={events} />
       </div>
+      {/* TOP ORGANIZERS */}
+      <div className="w-[70%] md:w-[70%] md:p-10 m-auto py-5 flex flex-col gap-4 bg-slate-400 rounded-3xl">
+        <h1 className="text-3xl font-bold text-center md:text-left">
+          TOP UPCOMING EVENTS
+        </h1>
+      </div>
     </div>
   );
 }
