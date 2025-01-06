@@ -36,13 +36,7 @@ export const CardSm: React.FC<ICardSm> = (prop: ICardSm) => {
             </span>
             {prop.date}
           </p>
-          <p>
-            {prop.price.toLocaleString("id", {
-              style: "currency",
-              currency: "IDR",
-              maximumFractionDigits: 0,
-            })}
-          </p>
+          <p>{prop.price}</p>
         </div>
         <div className="align-baseline">
           <p>{prop.organizer}</p>
@@ -54,7 +48,7 @@ export const CardSm: React.FC<ICardSm> = (prop: ICardSm) => {
 
 export const CardHero: React.FC<ICardHero> = (prop: ICardHero) => {
   return (
-    <div className="h-[350px] w-[90%] m-auto md:w-[97%] my-10 rounded-xl shadow-xl overflow-hidden">
+    <div className="h-[170px] md:h-[350px] w-[90%] m-auto md:w-[97%] my-10 rounded-xl shadow-xl overflow-hidden">
       <Image
         alt={prop.title}
         src={prop.image}
