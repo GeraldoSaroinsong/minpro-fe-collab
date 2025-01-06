@@ -90,7 +90,7 @@ import { getEventList, setEvents } from "@/lib/redux/features/eventSlice";
 // ];
 
 export default function Home() {
-  const event = useAppSelector((state) => state.eventReducer);
+  const events = useAppSelector((state) => state.eventReducer);
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
@@ -100,10 +100,10 @@ export default function Home() {
 
   const getData = async () => {
     try {
-      const event = await callAPI.get("/event");
-      console.log("EVENT DATA", event.data.result);
+      const events = await callAPI.get("/event");
+      console.log("EVENT DATA", events.data.result);
 
-      dispatch(setEvents(event.data.result));
+      dispatch(setEvents(events.data.result));
     } catch (error) {
       console.log(error);
     }
@@ -112,7 +112,7 @@ export default function Home() {
   return (
     <div className="bg-gray-100">
       {/* HERO SECTION */}
-      {/* <div className="w-[95%] md:w-[70%] m-auto py-5 flex flex-col gap-4">
+      <div className="w-[95%] md:w-[70%] m-auto py-5 flex flex-col gap-4">
         <Carousel
           opts={{
             align: "center",
@@ -134,7 +134,7 @@ export default function Home() {
             })}
           </CarouselContent>
         </Carousel>
-      </div> */}
+      </div>
       {/* FEATURED EVENTS */}
       <div className="w-[70%] md:w-[70%] m-auto py-5 flex flex-col gap-4">
         <h1 className="text-3xl font-bold text-center md:text-left">
@@ -147,7 +147,7 @@ export default function Home() {
           }}
         >
           <CarouselContent className="flex h-96">
-            {event.map((e: any, index: number) => {
+            {events.map((e: any, index: number) => {
               return (
                 <CarouselItem key={index} className="md:basis-1/4">
                   <CardSm
