@@ -13,6 +13,8 @@ import * as React from "react";
 import { callAPI } from "@/config/axios";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { getEventList, setEvents } from "@/lib/redux/features/eventSlice";
+import Hero from "@/components/HeroSection";
+import FeaturedEvents from "@/components/FeaturedEvents";
 
 // const events = [
 //   {
@@ -112,58 +114,13 @@ export default function Home() {
   return (
     <div className="bg-gray-100">
       {/* HERO SECTION */}
-      <div className="w-[95%] md:w-[70%] m-auto py-5 flex flex-col gap-4">
-        <Carousel
-          opts={{
-            align: "center",
-            loop: true,
-          }}
-          plugins={[
-            Autoplay({
-              delay: 3000,
-            }),
-          ]}
-        >
-          <CarouselContent>
-            {events.map((e: any, index: number) => {
-              return (
-                <CarouselItem key={index}>
-                  <CardHero title={e.title} image={e.image} />
-                </CarouselItem>
-              );
-            })}
-          </CarouselContent>
-        </Carousel>
-      </div>
+      <Hero events={events} />
       {/* FEATURED EVENTS */}
       <div className="w-[70%] md:w-[70%] m-auto py-5 flex flex-col gap-4">
         <h1 className="text-3xl font-bold text-center md:text-left">
           FEATURED EVENTS
         </h1>
-        <Carousel
-          opts={{
-            align: "center",
-            loop: true,
-          }}
-        >
-          <CarouselContent className="flex h-96">
-            {events.map((e: any, index: number) => {
-              return (
-                <CarouselItem key={index} className="md:basis-1/4">
-                  <CardSm
-                    image={e.image}
-                    title={e.title}
-                    date={e.date}
-                    price={e.price}
-                    organizer={e.organizer}
-                  />
-                </CarouselItem>
-              );
-            })}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+        <FeaturedEvents events={events} />
       </div>
     </div>
   );
