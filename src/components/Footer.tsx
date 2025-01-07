@@ -3,7 +3,7 @@ import { FaEnvelope, FaFacebook, FaInstagram, FaPhone } from "react-icons/fa";
 const FooterSection = () => {
   return (
     <div className="w-full bg-sky-500 py-[5vh] text-white">
-      <div className="m-auto flex w-[90%] flex-col items-center gap-6 md:w-[50%] md:items-start">
+      <div className="m-auto flex w-[90%] flex-col items-center gap-6 md:w-[70%] md:items-start">
         <h1 className="rounded-md bg-white px-1 text-xl font-semibold text-sky-500 md:w-fit">
           LOGO
         </h1>
@@ -39,7 +39,7 @@ const FooterSection = () => {
               >
                 <li className="flex flex-row items-center justify-center gap-1 md:justify-start">
                   <FaInstagram />
-                  <p>ticketGo</p>
+                  <p>ticketEZ</p>
                 </li>
               </a>
               <a
@@ -49,7 +49,7 @@ const FooterSection = () => {
               >
                 <li className="flex items-center justify-center gap-1 md:justify-start">
                   <FaFacebook />
-                  <p>Ticket GO</p>
+                  <p>Ticket-EZ</p>
                 </li>
               </a>
             </ul>
@@ -65,7 +65,7 @@ const FooterSection = () => {
               </li>
               <li className="flex items-center justify-center gap-1 md:justify-start">
                 <FaEnvelope className="text-white" />
-                <p className="text-white">: ticket@go.com</p>
+                <p className="text-white">: ticketez@mail.com</p>
               </li>
             </ul>
           </div>
