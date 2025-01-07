@@ -1,14 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { CardSm, CardHero } from "@/components/Card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 import * as React from "react";
 import { callAPI } from "@/config/axios";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
@@ -92,20 +83,23 @@ import FeaturedEvents from "@/components/FeaturedEvents";
 // ];
 
 export default function Home() {
-  const events = useAppSelector((state) => state.eventReducer);
-  const dispatch = useAppDispatch();
+  // const events = useAppSelector((state) => state.eventReducer);
+  // const dispatch = useAppDispatch();
+
+  const [events, setEvents] = React.useState<any>([]);
 
   React.useEffect(() => {
     getData();
-    dispatch(getEventList());
+    // dispatch(getEventList());
   }, []);
 
   const getData = async () => {
     try {
-      const events = await callAPI.get("/event");
+      const events = await callAPI.get("/event/all");
       console.log("EVENT DATA", events.data.result);
 
-      dispatch(setEvents(events.data.result));
+      // dispatch(setEvents(events.data.result));
+      setEvents(events.data.result);
     } catch (error) {
       console.log(error);
     }

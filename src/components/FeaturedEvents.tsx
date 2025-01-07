@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import {
   Carousel,
@@ -7,12 +8,14 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { CardSm } from "@/components/Card";
+import { useRouter } from "next/navigation";
 
 interface IFeaturedEvents {
   events: any;
 }
 
 const FeaturedEvents: React.FC<IFeaturedEvents> = (prop: IFeaturedEvents) => {
+  const router = useRouter();
   return (
     <Carousel
       opts={{
@@ -25,11 +28,13 @@ const FeaturedEvents: React.FC<IFeaturedEvents> = (prop: IFeaturedEvents) => {
           return (
             <CarouselItem key={index} className="md:basis-1/4">
               <CardSm
+                id={e.id}
                 image={e.image}
                 title={e.title}
                 date={e.date}
                 price={e.price}
                 organizer={e.organizer}
+                onClick={() => router.push(`/event/${e.title.toLowerCase()}`)}
               />
             </CarouselItem>
           );

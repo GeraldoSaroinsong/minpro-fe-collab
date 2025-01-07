@@ -6,12 +6,14 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { useRouter } from "next/navigation";
 
 interface IHeroSection {
   events: any;
 }
 
 const Hero: React.FC<IHeroSection> = (prop: IHeroSection) => {
+  const router = useRouter();
   return (
     <div className="w-[95%] md:w-[70%] m-auto py-5 flex flex-col gap-4">
       <Carousel
@@ -21,7 +23,7 @@ const Hero: React.FC<IHeroSection> = (prop: IHeroSection) => {
         }}
         plugins={[
           Autoplay({
-            delay: 3000,
+            delay: 5000,
           }),
         ]}
       >
@@ -29,7 +31,11 @@ const Hero: React.FC<IHeroSection> = (prop: IHeroSection) => {
           {prop.events.map((e: any, index: number) => {
             return (
               <CarouselItem key={index}>
-                <CardHero title={e.title} image={e.image} />
+                <CardHero
+                  title={e.title}
+                  image={e.image}
+                  onClick={() => router.push(`/event/${e.title.toLowerCase()}`)}
+                />
               </CarouselItem>
             );
           })}
