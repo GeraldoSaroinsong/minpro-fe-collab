@@ -2,14 +2,6 @@
 import * as React from "react";
 import { callAPI } from "@/config/axios";
 import Image from "next/image";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 interface IDetailProps {
   params: Promise<{ slug: string }>;
@@ -20,8 +12,8 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
   const [organizer, setOrganizer] = React.useState<any>(null);
   const [city, setCity] = React.useState<any>(null);
   const [category, setCategory] = React.useState<any>(null);
-  {
-  }
+  const [quantity, setQuantity] = React.useState<number>(1);
+
   const getEventDetails = async () => {
     try {
       const slug = (await params).slug;
@@ -71,7 +63,7 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
 
   React.useEffect(() => {
     getEventDetails();
-  }, [params]);
+  }, []);
 
   React.useEffect(() => {
     if (eventDetails) {
@@ -94,17 +86,33 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
     return <p>Loading...</p>;
   }
 
-  // const onBuy = async () => {
-  //   try {
-  //     // const res = await callAPI.post("/transaction/create",{iduser:1,subtotal:200000},{headers:{Authorization: `Bearer ${}`}})
-  //     console.log("RESPON CREATE TRANSACTION",res)
-  //     const token = res.data.result.tokenMidtrans
-  //     // ! kemungkinan perlu di parse pake json2an
+  const onBuy = async (): Promise<any> => {
+    try {
+      // // const res = await callAPI.post("/transaction/create",{iduser:1,subtotal:200000},{headers:{Authorization: `Bearer ${}`}})
+      // console.log("RESPON CREATE TRANSACTION",res)
+      // const token = res.data.result.tokenMidtrans
+      // // ! kemungkinan perlu di parse pake json2an
 
-  //   } catch (error) {
+      const data = {
+        id_event: eventDetails.id,
+        subtotal: eventDetails.price,
+        quantity: quantity,
+        id_user: 1,
+        referralCouponIsUsed: false,
+        pointsUsed: 0,
+        status: "process",
+        id_promotion: 2,
+      };
+      console.log("DATA", data);
 
-  //   }
-  // }
+      const res = await callAPI.post("/transaction/create", { data });
+      console.log(res);
+
+      // const tokenMid = res.data.result
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="w-[50%] mx-auto py-6 flex flex-col gap-10">
@@ -147,15 +155,26 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
             <label htmlFor="amount" className="font-semibold">
               Amount :
             </label>
-            <input
+            <select
+              className="pr-12"
+              name="amount"
               id="amount"
-              type="number"
-              className="px-2 py-1 shadow-md rounded-md w-16 outline outline-slate-400"
-            />
+              onChange={(e: any) => {
+                setQuantity(parseInt(e.target.value));
+              }}
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
           </div>
           <button
             type="submit"
             className="p-2 bg-red-500 rounded-md shadow-md text-lg font-semibold text-white"
+            onClick={() => {
+              onBuy();
+            }}
           >
             Buy Tickets
           </button>
