@@ -74,6 +74,21 @@ const FormInput: React.FC<IFormInput> = ({
       </div>
     );
   }
+  if (type === "dropdown") {
+    return (
+      <div className="flex flex-col gap-0.25 ">
+        <label className="font-medium text-sm">{label}</label>
+        <div className="flex gap-1 text-gray-700">
+          <select className="pr-12" name={name} id={name} onChange={onChange}>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col gap-0.25 text-gray-700">
       <label className="font-medium text-sm">{label}</label>

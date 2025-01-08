@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/*eslint-disable @typescript-eslint/no-unused-vars*/
 "use client";
 import * as React from "react";
 import FormInput from "@/components/InputForm";
-import Link from "next/link";
+// import Link from "next/link";
 
 const CreateEvent = () => {
   const [title, setTitle] = React.useState<string>("");
@@ -84,7 +86,6 @@ const CreateEvent = () => {
             setEndDate(e.target.value);
           }}
         />
-        <select name="" id=""></select>
       </div>
     </div>
   );
