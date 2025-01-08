@@ -2,6 +2,8 @@
 import * as React from "react";
 import { callAPI } from "@/config/axios";
 import Image from "next/image";
+import "dotenv/config";
+import { initSnap, useSnap } from "midtrans-snap";
 
 interface IDetailProps {
   params: Promise<{ slug: string }>;
@@ -13,6 +15,11 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
   const [city, setCity] = React.useState<any>(null);
   const [category, setCategory] = React.useState<any>(null);
   const [quantity, setQuantity] = React.useState<number>(1);
+
+  // penggunaan library komunitas untuk midtrans snap
+  const clientKey: string = process.env.NEXT_PUBLIC_CLIENT as string;
+  initSnap(clientKey, "sandbox");
+  let snap = useSnap();
 
   const getEventDetails = async () => {
     try {
@@ -63,6 +70,21 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
 
   React.useEffect(() => {
     getEventDetails();
+
+    // const snapScript = "https://app.stg.midtrans.com/snap/snap.js";
+    // const clientKey: string = process.env.NEXT_PUBLIC_CLIENT as string;
+
+    // const script = document.createElement("script");
+
+    // script.src = snapScript;
+    // script.setAttribute("data-client-key", clientKey);
+    // script.async = true;
+
+    // document.body.appendChild(script);
+
+    // return () => {
+    //   document.body.removeChild(script);
+    // };
   }, []);
 
   React.useEffect(() => {
@@ -88,11 +110,6 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
 
   const onBuy = async (): Promise<any> => {
     try {
-      // // const res = await callAPI.post("/transaction/create",{iduser:1,subtotal:200000},{headers:{Authorization: `Bearer ${}`}})
-      // console.log("RESPON CREATE TRANSACTION",res)
-      // const token = res.data.result.tokenMidtrans
-      // // ! kemungkinan perlu di parse pake json2an
-
       const data = {
         id_event: eventDetails.id,
         subtotal: eventDetails.price,
@@ -106,9 +123,34 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
       console.log("DATA", data);
 
       const res = await callAPI.post("/transaction/create", { data });
-      console.log(res);
+      console.log("TRANSAKSI DAN TOKEN", res.data.result);
 
-      // const tokenMid = res.data.result
+      const tokenMid = res.data.result.tokenMidtrans;
+
+      // const snapScript = "https://app.stg.midtrans.com/snap/snap.js";
+      // const clientKey: string = process.env.NEXT_PUBLIC_CLIENT as string;
+
+      await snap.pay(tokenMid, {});
+
+      // await window.snap?.pay(tokenMid, {
+      //   onSuccess: function (result:any) {
+      //     console.log("success");
+      //     console.log(result);
+      //   },
+      //   onPending: function (result:any) {
+      //     console.log("pending");
+      //     console.log(result);
+      //   },
+      //   onError: function (result:any) {
+      //     console.log("error");
+      //     console.log(result);
+      //   },
+      //   onClose: function () {
+      //     console.log(
+      //       "customer closed the popup without finishing the payment"
+      //     );
+      //   },
+      // });
     } catch (error) {
       console.log(error);
     }
