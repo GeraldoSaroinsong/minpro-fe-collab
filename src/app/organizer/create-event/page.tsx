@@ -40,7 +40,7 @@ const CreateEvent = () => {
               type="radio"
               name="eventType"
               id="Paid"
-              value={"Paid"}
+              value={"paid"}
               className="w-fit"
               onClick={(e: any) => {
                 setEventType(e.target.value);
@@ -53,7 +53,7 @@ const CreateEvent = () => {
               type="radio"
               name="eventType"
               id="Free"
-              value={"Free"}
+              value={"free"}
               className="w-fit"
               onClick={(e: any) => {
                 setEventType(e.target.value);
