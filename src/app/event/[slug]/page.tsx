@@ -18,7 +18,7 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
   const [quantity, setQuantity] = React.useState<number>(1);
 
   // penggunaan library komunitas untuk midtrans snap
-  const clientKey: string = process.env.NEXT_PUBLIC_CLIENT as string;
+  const clientKey: string = "SB-Mid-client-JuIn72sBaReyPMcG";
   initSnap(clientKey, "sandbox");
   const snap = useSnap();
 
