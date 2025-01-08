@@ -6,16 +6,31 @@ import { ISignIn } from "./SignInInterface";
 import { SignInSchema } from "./SignInSchema";
 import FormInput from "@/components/InputForm";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/lib/redux/hooks";
+import { setSignIn } from "@/lib/redux/features/userSlice";
 
 export default function SignInPage() {
+    const dispatch = useAppDispatch();
+    const router = useRouter();
     const onRegisterUser = async (values: ISignIn) => {
         try {
             console.log("LOGIN VALUES", values);
+
             const result = await callAPI.post("/user/login", {
                 email: values.email,
                 password: values.password,
             });
             console.log("LOGED USER", result);
+
+            dispatch(setSignIn({ ...result.data, isAuth: true }));
+
+            const token = result.data.token;
+            const userId = result.data.id;
+            localStorage.setItem("tkn", token);
+            localStorage.setItem("userId", userId);
+
+            router.push("/");
         } catch (error) {
             console.log("ERROR CALL API", error);
         }

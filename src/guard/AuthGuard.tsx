@@ -16,17 +16,22 @@ const AuthGuard: React.FunctionComponent<IAuthProps> = ({
     allowedRoles,
 }) => {
     const userData = useAppSelector((state) => state.userReducer);
+    const role = userData.role;
 
     React.useEffect(() => {
         if (!userData) {
             redirect("/sign-in");
         }
 
-        if (allowedRoles !== userData.role) {
-            redirect("/");
+        if (allowedRoles !== role) {
+            if (role === "organizer") {
+                redirect("/organizer/");
+            } else {
+                redirect("/");
+            }
         }
 
-        if (allowedRoles !== userData.role) {
+        if (allowedRoles === role) {
             return;
         }
     }, [userData, allowedRoles]);

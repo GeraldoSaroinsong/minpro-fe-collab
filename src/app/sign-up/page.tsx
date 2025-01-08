@@ -6,8 +6,13 @@ import { ISignUp } from "./SignUpInterface";
 import { SignUpSchema } from "./SignUpSchema";
 import { callAPI } from "@/config/axios";
 import { Button } from "@/components/ui/button";
+import { useAppDispatch } from "@/lib/redux/hooks";
+import { useRouter } from "next/navigation";
+import { setSignIn } from "@/lib/redux/features/userSlice";
 
 export default function SignUpPage() {
+    const dispatch = useAppDispatch();
+    const router = useRouter();
     const onRegisterUser = async (values: ISignUp) => {
         try {
             console.log("REGISTER VALUES", values);
@@ -18,6 +23,15 @@ export default function SignUpPage() {
                 password: values.password,
             });
             console.log("REGISTERED", result);
+
+            dispatch(setSignIn({ ...result.data, isAuth: true }));
+
+            const token = result.data.token;
+            const userId = result.data.id;
+            localStorage.setItem("tkn", token);
+            localStorage.setItem("userId", userId);
+
+            router.push("/");
         } catch (error) {
             console.log("ERROR CALL API", error);
         }

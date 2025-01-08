@@ -7,5 +7,7 @@ export const SignUpSchema = Yup.object().shape({
     password: Yup.string()
         .required("Password is required")
         .min(4, "Password must be at least 3 charaters"),
-    passwordConfirmation: Yup.string().required("You must confirm your password"),
+    passwordConfirmation: Yup.string()
+        .required("You must confirm your password")
+        .oneOf(["password"]),
 });
