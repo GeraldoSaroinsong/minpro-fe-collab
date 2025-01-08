@@ -6,6 +6,8 @@ import Image from "next/image";
 import "dotenv/config";
 import { initSnap, useSnap } from "midtrans-snap";
 import { useAppSelector } from "@/lib/redux/hooks";
+import { redirect } from "next/navigation";
+import Link from "next/link";
 
 interface IDetailProps {
   params: Promise<{ slug: string }>;
@@ -31,7 +33,7 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
       const res = await callAPI.get(`/event/detail/${slug}`);
 
       setEventDetails(res.data.result);
-      console.log("Event Details", eventDetails);
+      console.log("Event Details", res.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -42,8 +44,8 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
       if (eventDetails && eventDetails.id_organizer) {
         const res = await callAPI.get(`user/id/${eventDetails.id_organizer}`);
         setOrganizer(res.data.result.data);
+        console.log("Organizer Details", res.data.result.data);
       }
-      console.log("Organizer Details", organizer);
     } catch (error) {
       console.log(error);
     }
@@ -52,10 +54,10 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
   const getCity = async () => {
     try {
       if (eventDetails && eventDetails.id_city) {
-        const res = await callAPI.get(`/city/${eventDetails.id_city}`);
+        const res = await callAPI.get(`/city/id/${eventDetails.id_city}`);
         setCity(res.data.result);
+        console.log("City Detail", res);
       }
-      console.log("City Details", city);
     } catch (error) {
       console.log(error);
     }
@@ -74,6 +76,7 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
 
   React.useEffect(() => {
     getEventDetails();
+    // console.log("Event Details", eventDetails);
   }, []);
 
   React.useEffect(() => {
@@ -84,21 +87,27 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
     }
   }, [eventDetails]);
 
-  React.useEffect(() => {
-    if (eventDetails && organizer && city && category) {
-      console.log("Event", eventDetails);
-      console.log("Organizer", organizer);
-      console.log("City", city);
-      console.log("Category", category);
-    }
-  }, [eventDetails, organizer, city, category]);
+  // React.useEffect(() => {
+  //   if (eventDetails && organizer && city && category) {
+  //     console.log("Event", eventDetails);
+  //     console.log("Organizer", organizer);
+  //     console.log("City", city);
+  //     console.log("Category", category);
+  //   }
+  // }, [eventDetails, organizer, city, category]);
 
   if (!eventDetails) {
     return <p>Loading...</p>;
   }
 
+  const loggedIn = localStorage.getItem("userId");
   const onBuy = async (): Promise<any> => {
     try {
+      console.log("USER ID", loggedIn);
+
+      if (!loggedIn) {
+        alert("You must login first to buy tickets");
+      }
       const data = {
         id_event: eventDetails.id,
         id_user: userData.id,
@@ -122,7 +131,7 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
   };
 
   return (
-    <div className="w-[50%] mx-auto py-6 flex flex-col gap-10">
+    <div className="w-[90%] md:w-[50%] mx-auto py-6 flex flex-col gap-10">
       <div className="rounded-xl overflow-hidden">
         <Image
           alt={eventDetails?.title}
@@ -132,10 +141,12 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
           className="size-full"
         />
       </div>
-      <div className="flex justify-between">
-        <div className="flex flex-col gap-6 w-2/3">
+      <div className="flex flex-col gap-6 md:flex-row justify-between">
+        <div className="flex flex-col gap-6 md:w-2/3">
           <div>
-            <p>23 Feb 2025 - {city?.name}</p>
+            <p>
+              {eventDetails?.startDate} - {city?.name}
+            </p>
             <h1 className="text-3xl uppercase font-semibold">
               {eventDetails?.title}
             </h1>
@@ -153,10 +164,10 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
             #{category?.name}
           </p>
         </div>
-        <div className="p-4 flex flex-col gap-6">
+        <div className="md:p-4 flex flex-col gap-4 md:gap-6">
           <p>
             <span className="font-semibold">Price : </span>
-            IDR {eventDetails?.price.toLocaleString()}
+            IDR {eventDetails?.price}
           </p>
           <div className="flex items-center gap-4">
             <label htmlFor="amount" className="font-semibold">
@@ -176,15 +187,25 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
               <option value="4">4</option>
             </select>
           </div>
-          <button
-            type="submit"
-            className="p-2 bg-red-500 rounded-md shadow-md text-lg font-semibold text-white"
-            onClick={() => {
-              onBuy();
-            }}
-          >
-            Buy Tickets
-          </button>
+          {loggedIn ? (
+            <button
+              type="submit"
+              className="p-2 bg-red-500 rounded-md shadow-md text-lg font-semibold text-white"
+              onClick={() => {
+                onBuy();
+              }}
+            >
+              Buy Tickets
+            </button>
+          ) : (
+            <Link
+              href="/sign-in"
+              type="submit"
+              className="p-2 bg-yellow-500 rounded-md shadow-md text-lg font-semibold text-white"
+            >
+              Sign In to Continue
+            </Link>
+          )}
         </div>
       </div>
     </div>
