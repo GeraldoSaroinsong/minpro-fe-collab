@@ -113,7 +113,7 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
 
       const tokenMid = res.data.result.tokenMidtrans;
 
-      await window.snap?.pay(tokenMid, { onSuccess: () => {} });
+      await snap.pay(tokenMid, {});
     } catch (error) {
       console.log(error);
     }
