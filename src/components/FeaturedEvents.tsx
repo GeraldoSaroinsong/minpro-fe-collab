@@ -27,7 +27,10 @@ const FeaturedEvents: React.FC<IFeaturedEvents> = (prop: IFeaturedEvents) => {
       <CarouselContent className="flex h-96">
         {prop.events.map((e: any, index: number) => {
           return (
-            <CarouselItem key={index} className="md:basis-1/4">
+            <CarouselItem
+              key={index}
+              className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+            >
               <CardSm
                 id={e.id}
                 image={e.image}
