@@ -67,6 +67,7 @@ export const CardHero: React.FC<ICardHero> = (prop: ICardHero) => {
         alt={prop.title}
         src={prop.image}
         objectFit="cover"
+        priority={true}
         fill
         className="place-self-center"
       />
