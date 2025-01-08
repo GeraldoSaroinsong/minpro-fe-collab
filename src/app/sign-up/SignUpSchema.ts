@@ -9,5 +9,9 @@ export const SignUpSchema = Yup.object().shape({
         .min(4, "Password must be at least 3 charaters"),
     passwordConfirmation: Yup.string()
         .required("You must confirm your password")
-        .oneOf(["password"]),
+        .oneOf(
+            [Yup.ref("password")],
+            "Konfirmasi password tidak sesuai dengan password yg dimasukkan"
+        ),
+    role: Yup.string().default("user"),
 });

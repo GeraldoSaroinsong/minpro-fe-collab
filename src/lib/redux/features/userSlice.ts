@@ -3,7 +3,7 @@ import { init } from "next/dist/compiled/webpack/webpack";
 
 interface IUser {
     id: string;
-    fullname: string;
+    name: string;
     username: string;
     email: string;
     role: string;
@@ -13,7 +13,7 @@ interface IUser {
 
 const initialData: IUser = {
     id: "",
-    fullname: "",
+    name: "",
     username: "",
     role: "",
     email: "",

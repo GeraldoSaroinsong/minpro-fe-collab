@@ -25,17 +25,17 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <StoreProvider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <Navbar />
-          {children}
-          <FooterSection />
-        </body>
-      </StoreProvider>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <StoreProvider>
+                <body
+                    className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                >
+                    <Navbar />
+                    {children}
+                    <FooterSection />
+                </body>
+            </StoreProvider>
+        </html>
+    );
 }

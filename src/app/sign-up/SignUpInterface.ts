@@ -4,4 +4,5 @@ export interface ISignUp {
     username: string;
     password: string;
     passwordConfirmation: string;
+    role?: "user" | "organizer";
 }
