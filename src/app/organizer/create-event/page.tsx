@@ -4,6 +4,7 @@
 import * as React from "react";
 import FormInput from "@/components/InputForm";
 import { callAPI } from "@/config/axios";
+import { useAppSelector } from "@/lib/redux/hooks";
 // import Link from "next/link";
 
 const CreateEvent = () => {
@@ -12,8 +13,10 @@ const CreateEvent = () => {
   const [desc, setDesc] = React.useState<string>("");
   const [price, setPrice] = React.useState<number>(0);
   const [eventType, setEventType] = React.useState<string>("");
-  const [startDate, setStartDate] = React.useState<string>("");
-  const [endDate, setEndDate] = React.useState<string>("");
+  // const [startDate, setStartDate] = React.useState<string>("");
+  // const [endDate, setEndDate] = React.useState<string>("");
+  const [startDate, setStartDate] = React.useState<Date>();
+  const [endDate, setEndDate] = React.useState<Date>();
   const [city, setCity] = React.useState<number>(1);
   const [cityList, setCityList] = React.useState<any>([]);
   const [categoryList, setCategoryList] = React.useState<any>([]);
@@ -29,6 +32,10 @@ const CreateEvent = () => {
     setCategoryList(res.data.result);
   };
 
+  const userData = useAppSelector((state) => state.userReducer);
+
+  const id_organizer = userData.id;
+
   const onCheckout = async () => {
     console.log({
       image,
@@ -42,25 +49,30 @@ const CreateEvent = () => {
       city,
     });
 
-    // await callAPI.post(
-    //   "/event/create",
-    //   {
-    //     image: image,
-    //     title: title,
-    //     desc: desc,
-    //     category: category,
-    //     isPaidEvent: eventType === "paid" ? true : false,
-    //     price: price,
-    //     startDate: startDate,
-    //     endDate: endDate,
-    //     id_city: city,
-    //   },
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJnZXJhbGRvQG1haWwuY29tIiwicm9sZSI6Im9yZ2FuaXplciIsImlhdCI6MTczNjM1MzQ1NCwiZXhwIjoxNzM2MzU3MDU0fQ.c1pCsvWgx8xkV6ytsu_Ogyu2kVIuCkV4kzFbPWtgcRY`,
-    //     },
-    //   }
-    // );
+    const token = localStorage.getItem("tkn");
+    console.log("CREATE EVENT TOKEN", token);
+
+    const response = await callAPI.post(
+      "/event/create",
+      {
+        id_category: category,
+        id_city: city,
+        title: title,
+        desc: desc,
+        price: price,
+        isPaidEvent: eventType === "paid" ? true : false,
+        startDate: startDate,
+        endDate: endDate,
+        image: image,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log("EVENT TERBUAT", response);
   };
 
   React.useEffect(() => {
@@ -108,7 +120,7 @@ const CreateEvent = () => {
             name="category"
             id="category"
             onChange={(e: any) => {
-              setCategory(e.target.value);
+              setCategory(parseInt(e.target.value));
             }}
           >
             {categoryList?.map((e: any, index: number) => {
@@ -154,23 +166,23 @@ const CreateEvent = () => {
           type={eventType === "paid" ? "number" : "hidden"}
           label={eventType === "paid" ? "Price" : " "}
           onChange={(e: any) => {
-            setPrice(e.target.value);
+            setPrice(parseInt(e.target.value));
           }}
         />
         <FormInput
           name="Start Date"
-          type="datetime-local"
+          type="date"
           label="Start Date"
           onChange={(e: any) => {
-            setStartDate(e.target.value);
+            setStartDate(new Date(e.target.value));
           }}
         />
         <FormInput
           name="End Date"
-          type="datetime-local"
+          type="date"
           label="End Date"
           onChange={(e: any) => {
-            setEndDate(e.target.value);
+            setEndDate(new Date(e.target.value));
           }}
         />
         <div className="flex flex-col text-gray-700">
@@ -182,7 +194,7 @@ const CreateEvent = () => {
             name="amount"
             id="amount"
             onChange={(e: any) => {
-              setCity(e.target.value);
+              setCity(parseInt(e.target.value));
             }}
           >
             {cityList?.map((e: any, index: number) => {
