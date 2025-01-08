@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import * as React from "react";
 import { callAPI } from "@/config/axios";
@@ -19,7 +20,7 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
   // penggunaan library komunitas untuk midtrans snap
   const clientKey: string = process.env.NEXT_PUBLIC_CLIENT as string;
   initSnap(clientKey, "sandbox");
-  let snap = useSnap();
+  const snap = useSnap();
 
   const getEventDetails = async () => {
     try {
@@ -70,21 +71,6 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
 
   React.useEffect(() => {
     getEventDetails();
-
-    // const snapScript = "https://app.stg.midtrans.com/snap/snap.js";
-    // const clientKey: string = process.env.NEXT_PUBLIC_CLIENT as string;
-
-    // const script = document.createElement("script");
-
-    // script.src = snapScript;
-    // script.setAttribute("data-client-key", clientKey);
-    // script.async = true;
-
-    // document.body.appendChild(script);
-
-    // return () => {
-    //   document.body.removeChild(script);
-    // };
   }, []);
 
   React.useEffect(() => {
@@ -127,30 +113,7 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
 
       const tokenMid = res.data.result.tokenMidtrans;
 
-      // const snapScript = "https://app.stg.midtrans.com/snap/snap.js";
-      // const clientKey: string = process.env.NEXT_PUBLIC_CLIENT as string;
-
       await snap.pay(tokenMid, {});
-
-      // await window.snap?.pay(tokenMid, {
-      //   onSuccess: function (result:any) {
-      //     console.log("success");
-      //     console.log(result);
-      //   },
-      //   onPending: function (result:any) {
-      //     console.log("pending");
-      //     console.log(result);
-      //   },
-      //   onError: function (result:any) {
-      //     console.log("error");
-      //     console.log(result);
-      //   },
-      //   onClose: function () {
-      //     console.log(
-      //       "customer closed the popup without finishing the payment"
-      //     );
-      //   },
-      // });
     } catch (error) {
       console.log(error);
     }
