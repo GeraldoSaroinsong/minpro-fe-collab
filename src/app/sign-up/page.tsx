@@ -33,11 +33,6 @@ export default function SignUpPage() {
             localStorage.setItem("tkn", user.token);
             localStorage.setItem("userId", user.id);
 
-            const globalToken = localStorage.getItem("tkn");
-            const globalId = localStorage.getItem("userId");
-
-            console.log("GLOBAL STORAGE", { globalToken, globalId });
-
             router.push("/");
         } catch (error) {
             console.log("ERROR CALL API", error);

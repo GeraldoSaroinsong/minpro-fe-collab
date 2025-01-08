@@ -7,12 +7,12 @@ import * as React from "react";
 type Role = "user" | "organizer";
 
 interface IAuthProps {
-    childern: React.ReactNode;
+    children: React.ReactNode;
     allowedRoles: Role;
 }
 
 const AuthGuard: React.FunctionComponent<IAuthProps> = ({
-    childern,
+    children,
     allowedRoles,
 }) => {
     const userData = useAppSelector((state) => state.userReducer);
@@ -36,7 +36,7 @@ const AuthGuard: React.FunctionComponent<IAuthProps> = ({
         }
     }, [userData, allowedRoles]);
 
-    return <section>{childern};</section>;
+    return <>{children};</>;
 };
 
 export default AuthGuard;

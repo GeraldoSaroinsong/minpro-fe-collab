@@ -8,6 +8,7 @@ import { initSnap, useSnap } from "midtrans-snap";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import NoEO from "@/guard/NoEO";
 
 interface IDetailProps {
   params: Promise<{ slug: string }>;
@@ -131,84 +132,86 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
   };
 
   return (
-    <div className="w-[90%] md:w-[50%] mx-auto py-6 flex flex-col gap-10">
-      <div className="rounded-xl overflow-hidden">
-        <Image
-          alt={eventDetails?.title}
-          src={eventDetails?.image}
-          width={500}
-          height={500}
-          className="size-full"
-        />
-      </div>
-      <div className="flex flex-col gap-6 md:flex-row justify-between">
-        <div className="flex flex-col gap-6 md:w-2/3">
-          <div>
-            <p>
-              {eventDetails?.startDate} - {city?.name}
-            </p>
-            <h1 className="text-3xl uppercase font-semibold">
-              {eventDetails?.title}
-            </h1>
-          </div>
-          <p className="text-xl">{eventDetails?.desc}</p>
-          <div className="w-fit bg-slate-200 p-4 rounded-xl shadow-md">
-            <p>
-              By{" "}
-              <span className="font-bold">
-                {organizer?.name} - {organizer?.email}
-              </span>
-            </p>
-          </div>
-          <p className="bg-sky-200 w-fit p-2 rounded-full font-semibold">
-            #{category?.name}
-          </p>
+    <NoEO terlarang="organizer">
+      <div className="w-[90%] md:w-[50%] mx-auto py-6 flex flex-col gap-10">
+        <div className="rounded-xl overflow-hidden">
+          <Image
+            alt={eventDetails?.title}
+            src={eventDetails?.image}
+            width={500}
+            height={500}
+            className="size-full"
+          />
         </div>
-        <div className="md:p-4 flex flex-col gap-4 md:gap-6">
-          <p>
-            <span className="font-semibold">Price : </span>
-            IDR {eventDetails?.price}
-          </p>
-          <div className="flex items-center gap-4">
-            <label htmlFor="amount" className="font-semibold">
-              Amount :
-            </label>
-            <select
-              className="pr-12"
-              name="amount"
-              id="amount"
-              onChange={(e: any) => {
-                setQuantity(parseInt(e.target.value));
-              }}
-            >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-            </select>
+        <div className="flex flex-col gap-6 md:flex-row justify-between">
+          <div className="flex flex-col gap-6 md:w-2/3">
+            <div>
+              <p>
+                {eventDetails?.startDate} - {city?.name}
+              </p>
+              <h1 className="text-3xl uppercase font-semibold">
+                {eventDetails?.title}
+              </h1>
+            </div>
+            <p className="text-xl">{eventDetails?.desc}</p>
+            <div className="w-fit bg-slate-200 p-4 rounded-xl shadow-md">
+              <p>
+                By{" "}
+                <span className="font-bold">
+                  {organizer?.name} - {organizer?.email}
+                </span>
+              </p>
+            </div>
+            <p className="bg-sky-200 w-fit p-2 rounded-full font-semibold">
+              #{category?.name}
+            </p>
           </div>
-          {loggedIn ? (
-            <button
-              type="submit"
-              className="p-2 bg-red-500 rounded-md shadow-md text-lg font-semibold text-white"
-              onClick={() => {
-                onBuy();
-              }}
-            >
-              Buy Tickets
-            </button>
-          ) : (
-            <Link
-              href="/sign-in"
-              type="submit"
-              className="p-2 bg-yellow-500 rounded-md shadow-md text-lg font-semibold text-white"
-            >
-              Sign In to Continue
-            </Link>
-          )}
+          <div className="md:p-4 flex flex-col gap-4 md:gap-6">
+            <p>
+              <span className="font-semibold">Price : </span>
+              IDR {eventDetails?.price}
+            </p>
+            <div className="flex items-center gap-4">
+              <label htmlFor="amount" className="font-semibold">
+                Amount :
+              </label>
+              <select
+                className="pr-12"
+                name="amount"
+                id="amount"
+                onChange={(e: any) => {
+                  setQuantity(parseInt(e.target.value));
+                }}
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+            {loggedIn ? (
+              <button
+                type="submit"
+                className="p-2 bg-red-500 rounded-md shadow-md text-lg font-semibold text-white"
+                onClick={() => {
+                  onBuy();
+                }}
+              >
+                Buy Tickets
+              </button>
+            ) : (
+              <Link
+                href="/sign-in"
+                type="submit"
+                className="p-2 bg-yellow-500 rounded-md shadow-md text-lg font-semibold text-white"
+              >
+                Sign In to Continue
+              </Link>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </NoEO>
   );
 };
 
