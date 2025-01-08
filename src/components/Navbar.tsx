@@ -2,11 +2,11 @@
 import Link from "next/link";
 import { FaEnvelope, FaPhone, FaSearch } from "react-icons/fa";
 import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerFooter,
-    DrawerTrigger,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerTrigger,
 } from "./ui/drawer";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { LinkMd, LinkSm } from "./LinkComponent";
