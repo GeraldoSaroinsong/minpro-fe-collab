@@ -5,6 +5,7 @@ import { callAPI } from "@/config/axios";
 import Image from "next/image";
 import "dotenv/config";
 import { initSnap, useSnap } from "midtrans-snap";
+import { useAppSelector } from "@/lib/redux/hooks";
 
 interface IDetailProps {
   params: Promise<{ slug: string }>;
@@ -21,6 +22,8 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
   const clientKey: string = "SB-Mid-client-JuIn72sBaReyPMcG";
   initSnap(clientKey, "sandbox");
   const snap = useSnap();
+
+  const userData = useAppSelector((state) => state.userReducer);
 
   const getEventDetails = async () => {
     try {
@@ -98,13 +101,12 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
     try {
       const data = {
         id_event: eventDetails.id,
+        id_user: userData.id,
         subtotal: eventDetails.price,
         quantity: quantity,
-        id_user: 1,
         referralCouponIsUsed: false,
         pointsUsed: 0,
         status: "process",
-        id_promotion: 2,
       };
       console.log("DATA", data);
 
