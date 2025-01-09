@@ -40,7 +40,9 @@ const Navbar = () => {
         dispatch(setSignOut());
         localStorage.clear();
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
