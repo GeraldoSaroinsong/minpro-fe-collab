@@ -6,7 +6,6 @@ import Image from "next/image";
 import "dotenv/config";
 import { initSnap, useSnap } from "midtrans-snap";
 import { useAppSelector } from "@/lib/redux/hooks";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import NoEO from "@/guard/NoEO";
 

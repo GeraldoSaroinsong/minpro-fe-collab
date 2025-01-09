@@ -50,7 +50,7 @@ export default function SignInPage() {
           }}
         >
           {(props: FormikProps<ISignIn>) => {
-            const { handleChange, values, errors } = props;
+            const { handleChange, values } = props;
             // console.log("ERROR FORMIK", errors);
 
             return (
