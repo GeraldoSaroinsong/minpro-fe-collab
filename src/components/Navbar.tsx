@@ -79,6 +79,11 @@ const Navbar = () => {
           {userData.email ? (
             <div className="flex gap-4 mx-8">
               <Link href="#">{userData.email}</Link>
+              {userData.role === "user" ? (
+                <Link href="/user/myticket">My Tickets</Link>
+              ) : (
+                <></>
+              )}
               <Link
                 href="#"
                 onClick={() => {
