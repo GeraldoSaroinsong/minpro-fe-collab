@@ -12,24 +12,24 @@ import { setSignIn } from "@/lib/redux/features/userSlice";
 import { useEffect, useState } from "react";
 
 export default function SignUpPage() {
-    const dispatch = useAppDispatch();
-    const router = useRouter();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
-    const [refcode, setRefcode] = useState<{ referralCode: string }[]>([]);
-    const refArr = refcode.map((e) => {
-        return e.referralCode;
-    });
+  const [refcode, setRefcode] = useState<{ referralCode: string }[]>([]);
+  const refArr = refcode.map((e) => {
+    return e.referralCode;
+  });
 
-    const fetchRefCode = async () => {
-        try {
-            const res = await callAPI.get("/user/refcode");
-            const refData = res.data.result.data;
+  const fetchRefCode = async () => {
+    try {
+      const res = await callAPI.get("/user/refcode");
+      const refData = res.data.result.data;
 
-            setRefcode(refData);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+      setRefcode(refData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
     const onRegisterUser = async (values: ISignUp) => {
         try {
@@ -58,10 +58,10 @@ export default function SignUpPage() {
             const user = result.data.result.data;
             console.log("REGISTERED", user);
 
-            dispatch(setSignIn({ ...user, isAuth: true }));
+      dispatch(setSignIn({ ...user, isAuth: true }));
 
-            localStorage.setItem("tkn", user.token);
-            localStorage.setItem("userId", user.id);
+      localStorage.setItem("tkn", user.token);
+      localStorage.setItem("userId", user.id);
 
             router.push("/");
         } catch (error) {
@@ -91,12 +91,12 @@ export default function SignUpPage() {
                     onSubmit={(values) => {
                         console.log("FORMIK ONSUBMIT", values);
 
-                        onRegisterUser(values);
-                    }}
-                >
-                    {(props: FormikProps<ISignUp>) => {
-                        const { handleChange, values, errors } = props;
-                        console.log("ERROR FORMIK", errors);
+            onRegisterUser(values);
+          }}
+        >
+          {(props: FormikProps<ISignUp>) => {
+            const { handleChange, values, errors } = props;
+            console.log("ERROR FORMIK", errors);
 
                         return (
                             <Form>
