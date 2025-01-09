@@ -9,22 +9,52 @@ import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/redux/hooks";
 import { useRouter } from "next/navigation";
 import { setSignIn } from "@/lib/redux/features/userSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SignUpPage() {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  const [refcode, setRefcode] = useState<{ referralCode: string }[]>([]);
+  const refArr = refcode.map((e) => {
+    return e.referralCode;
+  });
+
+  const fetchRefCode = async () => {
+    try {
+      const res = await callAPI.get("/user/refcode");
+      const refData = res.data.result.data;
+
+      setRefcode(refData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onRegisterUser = async (values: ISignUp) => {
     try {
-      // console.log("REGISTER VALUES", values);
-      const result = await callAPI.post("/user/register", {
-        name: values.fullname,
-        email: values.email,
-        username: values.username,
-        password: values.password,
-        role: values.role,
-      });
+      console.log("REGISTER VALUES", values);
+
+      let result;
+      if (refArr.includes(values.usingReferralCode as string)) {
+        result = await callAPI.post("/user/register", {
+          name: values.name,
+          email: values.email,
+          username: values.username,
+          password: values.password,
+          role: values.role,
+          usingReferralCode: values.usingReferralCode,
+        });
+      } else {
+        result = await callAPI.post("/user/register", {
+          name: values.name,
+          email: values.email,
+          username: values.username,
+          password: values.password,
+          role: values.role,
+        });
+      }
+
       const user = result.data.result.data;
       console.log("REGISTERED", user);
 
@@ -39,18 +69,23 @@ export default function SignUpPage() {
     }
   };
 
+  useEffect(() => {
+    fetchRefCode();
+  }, []);
+
   return (
-    <div>
-      <div className="w-[95%] md:w-[30%] m-auto flex flex-col gap-4">
-        <h1 className="pt-5 text-3xl font-bold">SIGNUP</h1>
+    <div className="bg-gray-100">
+      <div className="w-[95%] md:w-[70%] m-auto py-5 flex flex-col gap-4">
+        <h1 className="text-3xl font-bold">SIGNUP</h1>
         <Formik
           initialValues={{
-            fullname: "",
+            name: "",
             email: "",
             username: "",
             password: "",
             passwordConfirmation: "",
             role: "user",
+            usingReferralCode: "",
           }}
           validationSchema={SignUpSchema}
           onSubmit={(values) => {
@@ -65,15 +100,15 @@ export default function SignUpPage() {
 
             return (
               <Form>
-                <div className="flex flex-col gap-4 p-8 my-8 border-2 rounded-xl border-slate-400">
+                <div className="flex flex-col gap-8 p-8 my-8 border-2 border-slate-400">
                   <FormInput
-                    id="fullname"
-                    name="fullname"
+                    id="name"
+                    name="name"
                     label="Full Name"
                     placeholder="Masukkan nama lengkap anda"
                     type="text"
                     onChange={handleChange}
-                    value={values.fullname}
+                    value={values.name}
                   />
                   <FormInput
                     id="email"
@@ -93,7 +128,7 @@ export default function SignUpPage() {
                     onChange={handleChange}
                     value={values.username}
                   />
-                  <div>
+                  <div className="text-gray-700 font-md text-sm flex flex-col gap-1">
                     <label htmlFor="">Role</label>
                     <div className="flex gap-8">
                       <label htmlFor="role" className="inline-flex gap-1">
@@ -137,6 +172,15 @@ export default function SignUpPage() {
                     type="password"
                     onChange={handleChange}
                     value={values.passwordConfirmation}
+                  />
+                  <FormInput
+                    id="usingReferralCode"
+                    name="usingReferralCode"
+                    label="Referral Code"
+                    placeholder="(Opsional) Masukkan Referral Code"
+                    type="text"
+                    onChange={handleChange}
+                    value={values.usingReferralCode}
                   />
                   <Button type="submit">Sign Up</Button>
                 </div>
