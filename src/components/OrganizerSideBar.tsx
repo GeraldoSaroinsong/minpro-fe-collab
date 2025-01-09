@@ -12,9 +12,6 @@ const SideBar = () => {
       <Link href={"/organizer/dashboard"} className="hover:text-sky-500">
         Dashboard
       </Link>
-      <Link href={"/organizer/event-management"} className="hover:text-sky-500">
-        Event Management
-      </Link>
       <Link href={"/organizer/create-event"} className="hover:text-sky-500">
         Create Event
       </Link>
