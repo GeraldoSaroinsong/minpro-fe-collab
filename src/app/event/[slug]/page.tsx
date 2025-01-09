@@ -116,7 +116,7 @@ const Detail: React.FunctionComponent<IDetailProps> = ({ params }) => {
         quantity: quantity,
         referralCouponIsUsed: false,
         pointsUsed: 0,
-        status: "success",
+        status: "process",
       };
       console.log("DATA", data);
 
